@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<head>
+  <title>Matplotlib pt 2</title>
+  <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+  <link rel="stylesheet" href="../../resources/css/slides-jjv.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  <!--
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  -->
+  <!--
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/googlecode.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/qtcreator-light.min.css">
+  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+</head>
+<body>
+  <div id="slides">
+    <section class="intro-slide">
+  <h1 id="matplotlib-pt-2">Matplotlib pt 2</h1>
+
+  <h3 id="csci-ua0479-001">CSCI-UA.0479-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="moar-matplotlib">MOAR matplotlib!</h2>
+
+  <p><strong>Some additional features to enhance our plot</strong></p>
+
+  <ul>
+    <li>specifying colors</li>
+    <li>styling</li>
+    <li>legend / label</li>
+    <li>pie charts</li>
+    <li>multiple subplots</li>
+    <li>disjoint plots, nan</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="colors">Colors</h2>
+
+  <p><strong>Specifying colors in matplotlib</strong></p>
+
+  <ul>
+    <li class="fragment">color string: <code class="language-plaintext highlighter-rouge">green</code>, <code class="language-plaintext highlighter-rouge">blue</code>, <code class="language-plaintext highlighter-rouge">cyan</code></li>
+    <li class="fragment">short color string: <code class="language-plaintext highlighter-rouge">k</code> (black), <code class="language-plaintext highlighter-rouge">b</code> (blue), etc.</li>
+    <li class="fragment">tuple of red green and blue: <code class="language-plaintext highlighter-rouge">(0.5, 0.5, 0.5)</code> (gray), <code class="language-plaintext highlighter-rouge">(1, 0, 0)</code> (red)</li>
+    <li class="fragment">hex code: <code class="language-plaintext highlighter-rouge">#00ff00</code> (green), <code class="language-plaintext highlighter-rouge">#ffff00</code> (yellow)</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+# using a tuple to create a light blue-green color
+plt.plot([0, 2, 4, 9, 16], color=(0.5, 0.75, 1))
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="styles">Styles</h2>
+
+  <p><strong>matplotlib plots are kind of ugly, tbh</strong> &#8594;</p>
+
+  <p class="fragment">Fortunately, there are pre-defined styles that you can use simply by calling:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+plt.style.use('name-of-prebuilt-style')
+# where name-of-prebuilt-style is one
+# of the following...
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="style-values">Style Values</h2>
+
+  <p><strong>Some possible values for style include:</strong></p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+ggplot                  bmh
+fivethirtyeight         grayscale
+seaborn-dark            seaborn-notebook 
+</code></pre>
+
+  <p class="fragment">You can also see a listing of available styles:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+plt.style.available
+</code></pre>
+
+  <p class="fragment">Finally, the <a href="https://matplotlib.org/users/style_sheets.html">docs on style sheets</a> also describe how to create your own styles.</p>
+
+</section>
+
+<section>
+  <h2 id="style-example">Style Example</h2>
+
+  <p>Call <code class="language-plaintext highlighter-rouge">style.use</code> before using <code class="language-plaintext highlighter-rouge">plot</code> and <code class="language-plaintext highlighter-rouge">show</code> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+x = np.arange(0, 25)
+y = (x * 4) ** 2
+x2 = np.arange(0, 25)
+y2 = x2 ** 3
+
+plt.style.use('ggplot')
+plt.plot(x, y, 'r-', x2, y2, 'b:')
+plt.show()
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="legend">Legend</h2>
+
+  <p>To add a <strong>legend</strong> to your plot:</p>
+
+  <ol>
+    <li class="fragment">add a keyword argument, <code class="language-plaintext highlighter-rouge">label</code>, for each plot</li>
+    <li class="fragment">call <code class="language-plaintext highlighter-rouge">plt.legend</code></li>
+  </ol>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+
+plt.plot(x, y, 'r-', label='text in legend')
+plt.legend() # loc keyword arg for positioning
+# upper right, lower right, upper center, etc.
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="legend-example">Legend Example</h2>
+
+  <p><strong>The following plot places a legend in the upper center of the plot</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+x = np.arange(0, 25)
+y = (x * 4) ** 2
+x2 = np.arange(0, 25)
+y2 = x2 ** 3
+</code></pre>
+
+  <pre><code data-trim="" contenteditable="">
+plt.style.use('seaborn-dark')
+plt.plot(x, y, 'r-', label='tears of joy')
+plt.plot(x2, y2, 'b:', label='face with no good gesture')
+plt.legend(loc="upper center")
+plt.show()
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="pie-charts">Pie Charts</h2>
+
+  <p><strong>Create a pie chart using the <code class="language-plaintext highlighter-rouge">pie</code> function.</strong></p>
+
+  <pre><code data-trim="" contenteditable="">
+plt.pie(sizes, explode=None, labels=None, autopct=None)
+
+plt.axis('equal')
+</code></pre>
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">sizes</code> - the sizes of the slices</li>
+    <li><code class="language-plaintext highlighter-rouge">explode</code> - offset for the slice</li>
+    <li><code class="language-plaintext highlighter-rouge">labels</code> - labels for each slice</li>
+    <li><code class="language-plaintext highlighter-rouge">autopct</code> - format of value in slice</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="pie-example">Pie Example</h2>
+
+  <p>Data &#8230;.</p>
+
+  <pre><code data-trim="" contenteditable="">
+edible_pies = ['Strawberry', 'Apple', 'Chocolate', 'Humble']
+numbers = [2, 3, 4, 1]
+</code></pre>
+
+  <p class="fragment">Calling <code class="language-plaintext highlighter-rouge">pie</code>:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+plt.style.use('ggplot')
+plt.pie(numbers, labels=edible_pies, 
+    autopct='%.2f%%', explode=[0, 0, 0, 0.1])
+plt.title('number of pies eaten')
+plt.axis('equal')
+plt.show()
+</code></pre>
+
+  <p class="fragment">Want to specify colors?</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+# using a variety of ways to specify color!
+colors=['#ffff00', (1, 0, 0), 'b', 'green']
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="pie-example-with-dictionary">Pie Example with Dictionary</h2>
+
+  <p><strong>Using data from previous dictionary example:</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">values are sizes (the slices!)</li>
+    <li class="fragment">keys are the labels</li>
+  </ul>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+feels = {'👍': 5, '😒':3, '🍠':12}
+plt.style.use('ggplot')
+plt.pie(list(feels.values()), 
+    labels=list(feels.keys()), 
+    autopct='%.2f%%')
+plt.axis('equal')
+</code></pre>
+</section>
+
+<section>
+  <h2 id="multiple-subplots">Multiple Subplots</h2>
+
+  <p>The <code class="language-plaintext highlighter-rouge">subplot()</code> takes <code class="language-plaintext highlighter-rouge">numrows</code>, <code class="language-plaintext highlighter-rouge">numcols</code>, and <code class="language-plaintext highlighter-rouge">plot number</code>as arguments. The rows and columns split up the current figure into subplots, and the last number specifies which subplot to &quot;switch&quot; to.</p>
+
+  <pre><code data-trim="" contenteditable="">
+y1 = np.arange(0, 10);
+y2 = np.arange(15, 5, -1)
+plt.style.use('ggplot')
+
+# switch to subplot 1 in subplot with 2 rows
+plt.subplot(2, 1, 1)
+plt.plot(y1, 'bo')
+
+# switch to subplot 2 in subplot with 2 rows
+plt.subplot(2, 1, 2)
+plt.plot(y2, 'k')
+plt.show()
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="more-subplots">More Subplots!</h2>
+
+  <p>A 2 x 2 grid of charts and graphs &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+y1 = np.arange(0, 10);
+y2 = np.arange(15, 5, -1)
+plt.style.use('ggplot')
+
+plt.subplot(2, 2, 1)
+plt.plot(y1, 'bo')
+
+plt.subplot(2, 2, 2)
+plt.plot(y2, 'k')
+
+plt.subplot(2, 2, 3)
+plt.bar([0, 1, 2], [5, 2, 7])
+
+plt.subplot(2, 2, 4)
+plt.pie([70, 10, 30], explode=[0, 1, 0])
+plt.axis('equal')
+
+plt.show()
+</code></pre>
+</section>
+
+<section>
+  <h2 id="disjoint-plots">Disjoint Plots</h2>
+
+  <p>You can use the special type, <code class="language-plaintext highlighter-rouge">numpy.nan</code> to represent a value <strong>that will not be plotted</strong>:</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+y = [3, 2, 2, 2, 2, np.nan, np.nan, 2, 2, 2, 1]
+plt.style.use('seaborn-dark')
+plt.plot(y, 'b-')
+plt.show()
+</code></pre>
+
+  <p class="fragment"><strong>Note that the middle of the graph is missing.</strong></p>
+</section>
+
+  </div>
+  <script src="../../resources/js/slides.js"></script>
+  <script src="../../resources/js/trim.js"></script>
+  <script src="../../resources/js/main.js"></script>
+</body>
+</html>

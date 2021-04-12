@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<head>
+  <title>Matplotlib pt 1</title>
+  <link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+  <link rel="stylesheet" href="../../resources/css/slides-jjv.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  <!--
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  -->
+  <!--
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/googlecode.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/qtcreator-light.min.css">
+  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/tomorrow.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  
+</head>
+<body>
+  <div id="slides">
+    <section class="intro-slide">
+  <h1 id="matplotlib-pt-1">Matplotlib pt 1</h1>
+
+  <h3 id="csci-ua0479-001">CSCI-UA.0479-001</h3>
+
+  <p><small></small></p>
+</section>
+
+<section>
+  <h2 id="matplotlib-basics">Matplotlib Basics</h2>
+
+  <ul>
+    <li>installation</li>
+    <li>background</li>
+    <li>plot</li>
+    <li>bar</li>
+    <li>xticks, xlabel, title</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="installation">Installation</h2>
+
+  <p><strong>Recommended installation</strong> &#8594;</p>
+
+  <ul>
+    <li class="fragment">use <code class="language-plaintext highlighter-rouge">conda</code> (through anaconda)</li>
+    <li class="fragment">or <code class="language-plaintext highlighter-rouge">pip</code> (<code class="language-plaintext highlighter-rouge">easy_install pip</code>) to manage Python packages
+      <ul>
+        <li class="fragment">create a <code class="language-plaintext highlighter-rouge">virtualenv</code> to bundle and isolate bundled packages (<code class="language-plaintext highlighter-rouge">easy_install virtualenv virtualenvwrapper</code>)</li>
+        <li class="fragment">install matplotlib with <code class="language-plaintext highlighter-rouge">pip</code> in <code class="language-plaintext highlighter-rouge">virtualenv</code></li>
+      </ul>
+    </li>
+  </ul>
+
+  <p class="fragment"><strong>uh&#8230; or it&#39;s probably already installed for you as part of anaconda</strong> &#8594;</p>
+
+</section>
+
+<section>
+  <h2 id="matplotlib">Matplotlib</h2>
+
+  <p><strong>matplotlib</strong> is a Python package / module for <strong>creating data visualizations</strong>. It can be used for&#8230;  &#8594;</p>
+
+  <ul>
+    <li class="fragment">creating charts and graphs</li>
+    <li class="fragment">animations</li>
+    <li class="fragment">interactivity</li>
+  </ul>
+
+  <p class="fragment">It has two main modes</p>
+
+  <ul>
+    <li class="fragment"><code class="language-plaintext highlighter-rouge">scripting</code> mode - similar to giving commands to turtle</li>
+    <li class="fragment"><code class="language-plaintext highlighter-rouge">object oriented</code> - build figures using objects</li>
+    <li class="fragment">scripting mode is easier to start off with, object oriented mode is more powerful / flexible</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="matplotlib-vocabulary">Matplotlib Vocabulary</h2>
+
+  <p>Jargon makes matplotlib a little intimidating, <a href="https://matplotlib.org/tutorials/introductory/usage.html#parts-of-a-figurea">but this visual aid helps explain commonly used terms</a>. Additionally, here are some definitions: &#8594;</p>
+
+  <ul>
+    <li class="fragment"><strong>Canvas</strong> - the object that <em>actually</em> draws everything to screen (you won&#39;t usually be working on this directly)</li>
+    <li class="fragment"><strong>Figure</strong> - you can think of this as your entire visualization / diagram, including the axes, its title, etc.</li>
+    <li class="fragment"><strong>Axes</strong> - basically your plotted data; there can be more than one Axes object in a figure (so you can a figure with multiple bar charts on it, for example)</li>
+    <li class="fragment"><strong>Axis</strong> - the lines in your graph that specify the graph boundaries / limits, its tick marks, etc.</li>
+  </ul>
+</section>
+
+<section>
+  <h2 id="basic-boilerplate-code">Basic Boilerplate Code</h2>
+
+  <p>Using scripting mode (<strong>pyplot</strong>) all you have to do is:</p>
+
+  <ol>
+    <li class="fragment"><code class="language-plaintext highlighter-rouge">import</code> matplotlib</li>
+    <li class="fragment">plot <em>something</em></li>
+    <li class="fragment">then show it&#8230;</li>
+  </ol>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+import matplotlib.pyplot as plt
+
+# your code goes here
+
+# display plot
+plt.show()
+</code></pre>
+
+  <p class="fragment"><strong>If you&#39;re in a notebook, you can use the magic command <code class="language-plaintext highlighter-rouge">%matplotlib inline</code> to display your visualizations directly in your notebook.</strong></p>
+
+  <p>(in this case, the explicit call to <code class="language-plaintext highlighter-rouge">show</code> is not needed, and the plot is displayed once cell is run)</p>
+
+</section>
+
+<section>
+  <h2 id="plot">plot</h2>
+
+  <p><code class="language-plaintext highlighter-rouge">plot</code> plots points or a line. <strong>It&#39;s flexible in terms of arguments passed in</strong>, but a common way of calling it is <code class="language-plaintext highlighter-rouge">plt.plot(x, y, format)</code>:</p>
+
+  <ul>
+    <li class="fragment"><code class="language-plaintext highlighter-rouge">x</code> and <code class="language-plaintext highlighter-rouge">y</code> - list or numpy array</li>
+    <li class="fragment"><code class="language-plaintext highlighter-rouge">format</code> - a string representing the color and line/marker style (<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.plot.html">see docs for details</a>)</li>
+  </ul>
+
+  <p class="fragment"><code class="language-plaintext highlighter-rouge">plot</code> can also be called with more or less arguments:</p>
+
+  <ul>
+    <li class="fragment">with 2 arguments, first y values (x is generated automatically), and second format</li>
+    <li class="fragment">more than 3 arguments, multiple plots</li>
+    <li class="fragment">with keyword arguments, like <code class="language-plaintext highlighter-rouge">color='#ff0000'</code></li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="lim-ticks-label-titles">lim, ticks, label, titles</h2>
+
+  <p>You can use the following functions <strong>to format and style the entire figure</strong>:</p>
+
+  <ul>
+    <li><code class="language-plaintext highlighter-rouge">xticks</code>, <code class="language-plaintext highlighter-rouge">yticks</code> - the values shown and associated with the x and y ticks</li>
+    <li><code class="language-plaintext highlighter-rouge">xlim</code>, <code class="language-plaintext highlighter-rouge">ylim</code> - the boundaries of the figure, the length of the x and y axis</li>
+    <li><code class="language-plaintext highlighter-rouge">xlabel</code>, <code class="language-plaintext highlighter-rouge">ylabel</code> - the label for the x and y axis</li>
+    <li><code class="language-plaintext highlighter-rouge">title</code> - set the title of the figure</li>
+  </ul>
+
+</section>
+
+<section>
+  <h2 id="an-entire-example">An Entire Example</h2>
+
+  <p>Setup&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+import matplotlib.pyplot as plt
+import numpy as np
+</code></pre>
+
+  <p>Some data&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+x = [0, 1, 2, 3, 4]
+y = [0, 2, 4, 9, 16]
+x2 = [0, 1, 2, 3, 4]
+y2 = [4, 5, 6, 7, 8]
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="plot-example-continued">plot Example Continued</h2>
+
+  <p>Plot a dashed red line and a solid blue line</p>
+
+  <pre><code data-trim="" contenteditable="">
+plt.plot(x, y, 'r--', x2, y2, 'b-')
+</code></pre>
+
+  <p>Formatting&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+plt.xticks([0, 2, 4], ['small', 'medium', 'large'])
+plt.yticks([0, 16], ['not much', 'a lot'])
+
+plt.xlabel('pizza size')
+plt.ylabel('amount of toppings')
+
+plt.xlim(-1, 5)
+plt.ylim(0, 20)
+</code></pre>
+
+  <p>Finally, display the figure&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+plt.show()
+</code></pre>
+</section>
+
+<section>
+  <h2 id="bar">bar</h2>
+
+  <p><a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.bar.html">Documentation for the bar function</a>&#8230; and a quick summary of its arguments <code class="language-plaintext highlighter-rouge">plt.bar(x, h, w, align='center')</code>: &#8594;</p>
+
+  <ol>
+    <li class="fragment">the x coordinates of the left sides of the bars</li>
+    <li class="fragment">the heights of the bars</li>
+    <li class="fragment">the widths of the bars</li>
+    <li class="fragment">the keyword argument, <code class="language-plaintext highlighter-rouge">align</code> will allow you to align the bars to the  right (<code class="language-plaintext highlighter-rouge">edge</code>) or center</li>
+  </ol>
+</section>
+
+<section>
+  <h2 id="bar-chart-example">Bar Chart Example</h2>
+
+  <p><strong>An example of a bar chart with labels:</strong> &#8594;</p>
+
+  <p>Start off with some data&#8230;</p>
+
+  <pre class="fragment"><code data-trim="" contenteditable="">
+# labels
+feels = ('👍', '😒', '🍠')
+
+# y values
+num_votes = [5, 3, 12]
+
+# the x values (based on number of labels)
+x = np.arange(len(feels))
+
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="bar-chart-example-continued">Bar Chart Example Continued</h2>
+
+  <p>Using data from previous slide&#8230;</p>
+
+  <pre><code data-trim="" contenteditable="">
+plt.bar(x, num_votes, align='center', color='#aaddff')
+plt.xticks(x, feels)
+plt.ylim(0, 14)
+plt.ylabel('Votes')
+plt.xlabel('Feels')
+plt.title('How U Feel Abt This Graph?')
+plt.show()
+</code></pre>
+
+</section>
+
+<section>
+  <h2 id="using-a-dictionary">Using a Dictionary</h2>
+
+  <p><strong>If your data were in a dictionary&#8230; here&#39;s how the previous program may look</strong> &#8594;</p>
+
+  <pre><code data-trim="" contenteditable="">
+feels = {'👍': 5, '😒':3, '🍠':12}
+plt.bar(np.arange(len(feels)), list(feels.values()), align='center', color='#aaddff')
+plt.xticks(np.arange(len(feels)), list(feels.keys()))
+
+plt.ylim(0, 14)
+plt.ylabel('Votes')
+plt.xlabel('Feels')
+plt.title('How U Feel Abt This Graph?')
+plt.show()
+</code></pre>
+</section>
+
+  </div>
+  <script src="../../resources/js/slides.js"></script>
+  <script src="../../resources/js/trim.js"></script>
+  <script src="../../resources/js/main.js"></script>
+</body>
+</html>
